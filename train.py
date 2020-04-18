@@ -18,8 +18,9 @@ from keras.models import load_model
 
 
 config = tf.compat.v1.ConfigProto(
-    gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.9)
+    #gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction=0.9)
     # device_count = {'GPU': 1}
+    device_count = {'GPU': 0}
 )
 config.gpu_options.allow_growth = True
 session = tf.compat.v1.Session(config=config)
@@ -36,6 +37,7 @@ def create_training_instances(
 ):
     # parse annotations of the training set
     train_ints, train_labels = parse_voc_annotation(train_annot_folder, train_image_folder, train_cache, labels)
+    print(train_labels)
 
     # parse annotations of the validation set, if any, otherwise split the training set
     if os.path.exists(valid_annot_folder):
@@ -61,7 +63,7 @@ def create_training_instances(
         # return None, None, None if some given label is not in the dataset
         if len(overlap_labels) < len(labels):
             print('Some labels have no annotations! Please revise the list of labels in the config.json.')
-            return None, None, None
+            return None, None, None, None
     else:
         print('No labels are provided. Train on all seen labels.')
         print(train_labels)
@@ -181,6 +183,7 @@ def _main_(args):
     ###############################
     #   Parse the annotations 
     ###############################
+    print(config['model']['labels'])
     train_ints, valid_ints, labels, max_box_per_image = create_training_instances(
         config['train']['train_annot_folder'],
         config['train']['train_image_folder'],

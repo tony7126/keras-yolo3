@@ -71,7 +71,6 @@ class BatchGenerator(Sequence):
         for train_instance in self.instances[l_bound:r_bound]:
             # augment input image and fix object's position and size
             img, all_objs = self._aug_image(train_instance, net_h, net_w)
-            
             for obj in all_objs:
                 # find the best anchor box for this object
                 max_anchor = None                

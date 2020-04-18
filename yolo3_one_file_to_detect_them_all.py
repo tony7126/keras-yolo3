@@ -6,8 +6,9 @@ from keras.layers.merge import add, concatenate
 from keras.models import Model
 import struct
 import cv2
+import sys
 
-np.set_printoptions(threshold=np.nan)
+np.set_printoptions(threshold=sys.maxsize)
 os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
@@ -157,7 +158,8 @@ def bbox_iou(box1, box2):
     w2, h2 = box2.xmax-box2.xmin, box2.ymax-box2.ymin
     
     union = w1*h1 + w2*h2 - intersect
-    
+    if union == 0:
+        return 0
     return float(intersect) / union
 
 def make_yolov3_model():
@@ -282,6 +284,8 @@ def decode_netout(netout, anchors, obj_thresh, nms_thresh, net_h, net_w):
     nb_box = 3
     netout = netout.reshape((grid_h, grid_w, nb_box, -1))
     nb_class = netout.shape[-1] - 5
+    
+    print(nb_class)
 
     boxes = []
 
