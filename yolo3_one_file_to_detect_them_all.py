@@ -285,8 +285,6 @@ def decode_netout(netout, anchors, obj_thresh, nms_thresh, net_h, net_w):
     netout = netout.reshape((grid_h, grid_w, nb_box, -1))
     nb_class = netout.shape[-1] - 5
     
-    print(nb_class)
-
     boxes = []
 
     netout[..., :2]  = _sigmoid(netout[..., :2])
@@ -370,16 +368,17 @@ def draw_boxes(image, boxes, labels, obj_thresh):
                 label_str += labels[i]
                 label = i
                 print(labels[i] + ': ' + str(box.classes[i]*100) + '%')
-                
+        
         if label >= 0:
-            cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (0,255,0), 3)
+            cv2.rectangle(image, (box.xmin,box.ymin), (box.xmax,box.ymax), (0,255,0), 1)
+            """
             cv2.putText(image, 
                         label_str + ' ' + str(box.get_score()), 
                         (box.xmin, box.ymin - 13), 
                         cv2.FONT_HERSHEY_SIMPLEX, 
                         1e-3 * image.shape[0], 
-                        (0,255,0), 2)
-        
+                        (0,255,255), 2)
+            """
     return image      
 
 def _main_(args):
