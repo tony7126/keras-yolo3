@@ -1,14 +1,14 @@
 {
     "model" : {
-        "min_input_size":       288,
-        "max_input_size":       448,
-        "anchors":              [103,106, 106,125, 122,130, 126,117, 142,143, 150,90, 160,138, 172,166, 351,169],
+        "min_input_size":       128,
+        "max_input_size":       192,
+        "anchors":              [47,52, 57,52, 60,58, 61,63, 67,41, 68,67, 75,68, 81,78, 162,78],
         "labels":               ["ball"]
     },
 
     "train": {
-        "train_image_folder":   "./orig_images/",
-        "train_annot_folder":   "./annotations_voc/",
+        "train_image_folder":   "./images/final",
+        "train_annot_folder":   "./annotations/final",
         "cache_name":           "ball_train.pkl",
 
         "train_times":          8,
